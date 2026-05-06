@@ -15,7 +15,7 @@ const certificateSchema = new mongoose.Schema({
 
 const Certificate = mongoose.models.Certificate || mongoose.model('Certificate', certificateSchema);
 
-// Connect to MongoDB
+// Connect to MongoDB with caching for serverless
 let cached = global.mongoose;
 
 if (!cached) {
@@ -28,8 +28,13 @@ async function dbConnect() {
   }
 
   if (!cached.promise) {
-    const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/qams';
-    cached.promise = mongoose.connect(MONGO_URI).then((mongoose) => {
+    const MONGO_URI = process.env.MONGO_URI;
+    if (!MONGO_URI) {
+      throw new Error('MONGO_URI environment variable is not defined');
+    }
+    cached.promise = mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    }).then((mongoose) => {
       return mongoose;
     });
   }
