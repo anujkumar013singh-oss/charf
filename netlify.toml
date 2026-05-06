@@ -1,0 +1,50 @@
+# Netlify Configuration for Full-Stack Application
+
+[build]
+  # Build command: Install dependencies and build React frontend
+  command = "cd client && npm install && npm run build"
+  
+  # Directory containing serverless functions
+  functions = "api"
+  
+  # Directory to deploy (React build output)
+  publish = "client/dist"
+
+[build.environment]
+  # Node.js version
+  NODE_VERSION = "18"
+
+# API route redirects - maps /api/* to serverless functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true
+
+# SPA fallback - routes all unmatched requests to index.html for React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Optional: Cache headers for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML files - no cache to ensure users get latest version
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
