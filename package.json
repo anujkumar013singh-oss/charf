@@ -1,0 +1,18 @@
+{
+  "name": "qams-global",
+  "version": "1.0.0",
+  "description": "QAMS Global ISO Certification - Vercel Deployment",
+  "type": "module",
+  "scripts": {
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "vercel-build": "cd client && npm install && npm run build"
+  },
+  "dependencies": {
+    "mongoose": "^8.0.0",
+    "dotenv": "^16.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
