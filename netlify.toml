@@ -2,7 +2,7 @@
 
 [build]
   # Build command: Install dependencies and build React frontend
-  command = "cd client && npm install && npm run build"
+  command = "npm install && cd client && npm install && npm run build"
   
   # Directory containing serverless functions
   functions = "api"
